@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InventoryManager.WebApi.Mvc</name>
+    </assembly>
+    <members>
+        <member name="T:InventoryManager.WebApi.Mvc.Controllers.ItemsController">
+            <summary>
+            The inventory items resource.
+            </summary>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Controllers.ItemsController.#ctor(InventoryManager.WebApi.Business.Services.ItemService.IItemService,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{InventoryManager.WebApi.Mvc.Controllers.ItemsController})">
+            <summary>
+            Initializes a new instance of the <see cref="T:InventoryManager.WebApi.Mvc.Controllers.ItemsController"/> class.
+            </summary>
+            <param name="itemService">The service that owns the inventory logic.</param>
+            <param name="mapper">Maps business models to the public API models.</param>
+            <param name="logger">The logger for this controller.</param>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Controllers.ItemsController.GetAsync(System.String)">
+            <summary>
+            Returns the inventory item with the given name.
+            </summary>
+            <param name="name">The name that identifies the item.</param>
+            <returns>The requested item.</returns>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Controllers.ItemsController.AddAsync(InventoryManager.WebApi.Mvc.Models.AddAsyncRequest)">
+            <summary>
+            Adds an item to the inventory and schedules its expiry.
+            </summary>
+            <param name="request">The item to add.</param>
+            <returns>The item as it was stored, with a Location header pointing at it.</returns>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Controllers.ItemsController.DeleteAsync(System.String)">
+            <summary>
+            Removes the inventory item with the given name.
+            </summary>
+            <param name="name">The name that identifies the item.</param>
+            <returns>The item that was removed.</returns>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Infrastructure.BaseStartup">
+            <summary>
+            Custom Startup class for WebApi project.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Infrastructure.BaseStartup.Configuration">
+            <summary>
+            <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Infrastructure.BaseStartup.Environment">
+            <summary>
+            <see cref="T:Microsoft.Extensions.Hosting.IHostEnvironment"/>.
+            </summary>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.BaseStartup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Hosting.IHostEnvironment)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"><see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></param>
+            <param name="environment"><see cref="T:Microsoft.Extensions.Hosting.IHostEnvironment"/></param>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.BaseStartup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime.Use this method to add services to the container.
+            </summary>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.BaseStartup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="applicationBuilder"><see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/></param>
+            <param name="apiVersionProvider"><see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider"/></param>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Infrastructure.Extensions.ApplicationBuilderExtensions">
+            <summary>
+            Extension methods that configure the inventory API request pipeline.
+            </summary>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.Extensions.ApplicationBuilderExtensions.UseDefault(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Hosting.IHostEnvironment,Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            Configure. This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="applicationBuilder"><see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/></param>
+            <param name="environment"><see cref="T:Microsoft.Extensions.Hosting.IHostEnvironment"/></param>
+            <param name="apiVersionDescriptionProvider"><see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider"/></param>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.Extensions.ApplicationBuilderExtensions.UseOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            Use Open Api provider
+            </summary>
+            <param name="applicationBuilder"><see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/></param>
+            <param name="provider"><see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider"/></param>
+            <returns>The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/></returns>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Infrastructure.Filters.ItemDuplicatedExceptionFilter">
+            <summary>
+            Translates a duplicated item name raised by the business layer into a 409 Conflict,
+            so controllers do not have to know the HTTP status each domain failure maps to.
+            </summary>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.Filters.ItemDuplicatedExceptionFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Infrastructure.Filters.NotFoundExceptionFilter">
+            <summary>
+            Translates a missing item raised by the business layer into a 404 Not Found,
+            so controllers do not have to know the HTTP status each domain failure maps to.
+            </summary>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.Filters.NotFoundExceptionFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Infrastructure.OpenApi.ConfigureSwaggerOptions">
+            <summary>
+            Configures the Swagger generation options.
+            </summary>
+            <remarks>This allows API versioning to define a Swagger document per API version after the
+            <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider"/> service has been resolved from the service container.</remarks>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.OpenApi.ConfigureSwaggerOptions.#ctor(Microsoft.Extensions.Options.IOptions{InventoryManager.WebApi.Infrastructure.Configuration.ConfigurationApp},Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:InventoryManager.WebApi.Mvc.Infrastructure.OpenApi.ConfigureSwaggerOptions"/> class.
+            </summary>
+            <param name="configuration">The bound <see cref="T:InventoryManager.WebApi.Infrastructure.Configuration.ConfigurationApp"/> settings.</param>
+            <param name="apiVersionDescription">The <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider">provider</see> used to generate Swagger documents.</param>
+        </member>
+        <member name="M:InventoryManager.WebApi.Mvc.Infrastructure.OpenApi.ConfigureSwaggerOptions.Configure(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.Abstractions.BaseRequest`1">
+            <summary>
+            Base request following the json:api conventions. <see href="https://jsonapi.org/"/>
+            </summary>
+            <typeparam name="TRequest">The payload carried by the request.</typeparam>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.Abstractions.BaseRequest`1.Data">
+            <summary>
+            The primary data of the request.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.Abstractions.BaseResponse`1">
+            <summary>
+            Base response following the json:api conventions. <see href="https://jsonapi.org/"/>
+            </summary>
+            <typeparam name="TResponse">The payload carried by the response.</typeparam>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.Abstractions.BaseResponse`1.Data">
+            <summary>
+            The primary data of the response.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.AddAsyncRequest">
+            <summary>
+            The item to add to the inventory.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.AddAsyncRequest.Item">
+            <summary>
+            The inventory item carried by the request.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.AddAsyncRequest.Item.Name">
+            <summary>
+            The name that identifies the item. Unique across the inventory.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.AddAsyncRequest.Item.ExpirationDate">
+            <summary>
+            The instant, in UTC, at which the item expires and is removed from the inventory.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.AddAsyncRequest.Item.Type">
+            <summary>
+            The category the item belongs to.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.AddAsyncResponse">
+            <summary>
+            The item that was added to the inventory.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.AddAsyncResponse.Item">
+            <summary>
+            The inventory item carried by the response.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.AddAsyncResponse.Item.Name">
+            <summary>
+            The name that identifies the item.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.AddAsyncResponse.Item.ExpirationDate">
+            <summary>
+            The instant, in UTC, at which the item expires.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.AddAsyncResponse.Item.Type">
+            <summary>
+            The category the item belongs to.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.DeleteAsyncRequest">
+            <summary>
+            The Request counterpart of <see cref="T:InventoryManager.WebApi.Mvc.Models.DeleteAsyncResponse"/>. The endpoint binds the name
+            straight from the route, which MVC and Swagger handle without a dedicated model, so this
+            type only records the shape the request would take once the endpoint takes more input.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.DeleteAsyncRequest.Item">
+            <summary>
+            The item to delete.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.DeleteAsyncRequest.Item.Name">
+            <summary>
+            The name that identifies the item.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.DeleteAsyncResponse">
+            <summary>
+            The item that was removed from the inventory.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.DeleteAsyncResponse.Item">
+            <summary>
+            The inventory item carried by the response.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.DeleteAsyncResponse.Item.Name">
+            <summary>
+            The name that identifies the item.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.DeleteAsyncResponse.Item.ExpirationDate">
+            <summary>
+            The instant, in UTC, at which the item expired.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.DeleteAsyncResponse.Item.Type">
+            <summary>
+            The category the item belongs to.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.GetAsyncRequest">
+            <summary>
+            The Request counterpart of <see cref="T:InventoryManager.WebApi.Mvc.Models.GetAsyncResponse"/>. The endpoint binds the name
+            straight from the route, which MVC and Swagger handle without a dedicated model, so this
+            type only records the shape the request would take once the endpoint takes more input.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.GetAsyncRequest.Item">
+            <summary>
+            The item to look up.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.GetAsyncRequest.Item.Name">
+            <summary>
+            The name that identifies the item.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.GetAsyncResponse">
+            <summary>
+            The item requested from the inventory.
+            </summary>
+        </member>
+        <member name="T:InventoryManager.WebApi.Mvc.Models.GetAsyncResponse.Item">
+            <summary>
+            The inventory item carried by the response.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.GetAsyncResponse.Item.Name">
+            <summary>
+            The name that identifies the item.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.GetAsyncResponse.Item.ExpirationDate">
+            <summary>
+            The instant, in UTC, at which the item expires.
+            </summary>
+        </member>
+        <member name="P:InventoryManager.WebApi.Mvc.Models.GetAsyncResponse.Item.Type">
+            <summary>
+            The category the item belongs to.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions">
+            <summary>
+            Extension methods that register every service this API needs.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddDefault(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Configure all the services. This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <param name="configuration"><see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></param>
+            <returns>The instance of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddMvcServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure all the Web Api services needed for this project to the service collection.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <returns>The instance of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddMappers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers the AutoMapper profiles declared in this assembly.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <returns>The instance of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddCustomApiVersioning(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add services to customize the API versioning to the service collection.
+            </summary>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <returns>A service collection</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddOpenApi(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure services to use Open Api provider
+            </summary>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <returns>A service collection</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddCustomAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add authentication services to the service collection.
+            </summary>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <returns>The instance of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddCustomAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the Web Api custom authorization
+            </summary>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <returns>The instance of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddPolicyHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds custom policy handlers
+            </summary>
+            <param name="services"></param>
+            <returns>The instance of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.InventoryManagerMvcServiceCollectionExtensions.AddCustomMvc(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds customized Mvc services.
+            </summary>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></param>
+            <returns>The instance of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+    </members>
+</doc>

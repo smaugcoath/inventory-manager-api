@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  webapi:
+    image: ${DOCKER_REGISTRY-}inventorymanagerwebapihost
+    container_name: inventorymanager-webapi
+    build:
+        context: .
+        dockerfile: src/InventoryManager.WebApi.Host/Dockerfile
+    ports:
+        - "3340:80"
+        - "3341:443"
+    depends_on:
+        - database
+
+  database:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    container_name: inventorymanager-database
+    environment:
+        SA_PASSWORD: "Container_Test_P4ssword"
+        ACCEPT_EULA: "Y"
+    ports:
+        - "1433:1433"
+    volumes:
+        - ./containers/mssql-server-linux-data:/var/opt/mssql/data
