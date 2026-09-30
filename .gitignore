@@ -342,3 +342,10 @@ healthchecksdb
 # SQL Server container data volume (do not commit)
 containers/mssql-server-linux-data/
 
+# Claude Code: personal and runtime files (shared config under .claude/ stays tracked)
+CLAUDE.local.md
+**/.claude/settings.local.json
+**/.claude/worktrees/
+**/.claude/agent-memory-local/
+**/.claude/scheduled_tasks.lock
+**/.claude/scheduled_tasks.json
